@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  debian12:
+    image: debian:12
+    privileged: true
+    volumes:
+      - /dev:/dev
+      - /sys:/sys
+      - /proc:/proc
+    environment:
+      - DEBIAN_FRONTEND=noninteractive
+    command: |
+      bash -c "
+        apt-get update && apt-get install -y \
+          sudo \
+          systemd \
+          dbus \
+          udev \
+          vim && \
+        useradd -m -s /bin/bash nvidia && \
+        echo 'nvidia:nvidia' | chpasswd && \
+        usermod -aG sudo nvidia && \
+        echo 'nvidia ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/nvidia && \
+        /sbin/init
+      "
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
